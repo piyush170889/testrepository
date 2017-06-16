@@ -25,32 +25,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private AuthenticationEntryPoint authenticationEntryPoint;
 
 	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Autowired
 	private UserDetailsService ptntUserDetailsService;
 
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(PasswordEncoder);
 		auth.userDetailsService(ptntUserDetailsService).passwordEncoder(PasswordEncoder);
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// handle admin panel http requests
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
-				.authenticationEntryPoint(authenticationEntryPoint).and()
-				.addFilterBefore(new AuthenticationTokenProcessingFilter(userDetailsService),
-						UsernamePasswordAuthenticationFilter.class)
-				.authorizeRequests()
-				.antMatchers("/css/**").permitAll()
-				.antMatchers("/rest/security/authenticate").permitAll()
-				.antMatchers("/rest/register").hasRole("Admin").antMatchers("/rest/admin/*").hasRole("Admin")
-				// .antMatchers("/rest/*/*").hasRole("user"),"/rest/dist/**","/rest/plugins/**","/rest/js/**"
-				.and().csrf().disable();
-
-		
 		// handle patient panel http requests
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().exceptionHandling()
 				.authenticationEntryPoint(authenticationEntryPoint).and()
@@ -58,9 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
 				.antMatchers("/css/**").permitAll()
-				.antMatchers("/rest/authenticate-patient").permitAll()
-				.antMatchers("/rest/patient/*").hasRole("Patient")
-				.antMatchers("/rest/*/*").hasRole("Patient")
+				.antMatchers("/rest/*/*").permitAll()
 				.and().csrf().disable();
 	}
 

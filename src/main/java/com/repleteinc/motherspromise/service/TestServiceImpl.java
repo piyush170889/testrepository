@@ -27,4 +27,27 @@ public class TestServiceImpl implements TestService {
 		TestResponse res = testDAO.selectTestValues();
 		return res;
 	}
+	public int deleteTest(int id){
+		int result = testDAO.deleteTestValues(id);
+//		return null;
+		return result;
+		
+	}
+	
+	@Override
+	public void InsertTest(TestResponse t1) {
+		
+		boolean b = testDAO.InsertTest(t1);
+		
+	}
+	@Override
+	public int updateTest(TestResponse t1) {
+		// TODO Auto-generated method stub
+		 int res = testDAO.updateTestValue( t1);
+		 return res;
+		
+	}
+	
+	
+	
 }

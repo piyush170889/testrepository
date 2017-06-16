@@ -85,8 +85,8 @@ public class BaseModuleConfiguration extends WebMvcConfigurerAdapter implements 
 	public void addCorsMappings(CorsRegistry registry) {
 
 		registry.addMapping("/**").allowCredentials(false)
-			.allowedOrigins(environment.getRequiredProperty("http.allowedorigins"))
-			.allowedMethods(environment.getRequiredProperty("http.allowedmethods"))
+			.allowedOrigins("*")
+			.allowedMethods("PUT", "POST", "GET", "OPTIONS", "DELETE")
 			.exposedHeaders("Authorization", "Content-Type");
 	}
 
