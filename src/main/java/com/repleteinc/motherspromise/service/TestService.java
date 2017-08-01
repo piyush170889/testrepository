@@ -12,4 +12,6 @@ public interface TestService {
 	
 	void InsertTest(TestResponse t1);
 	int updateTest(TestResponse t1);
+
+	String doTestSelect(String id);
 }

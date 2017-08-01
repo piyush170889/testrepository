@@ -47,6 +47,13 @@ public class TestServiceImpl implements TestService {
 		 return res;
 		
 	}
+	@Override
+	public String doTestSelect(String id) {
+		System.out.println("id....impl" +id);
+		
+		testDAO.testSelectValues(id);
+		return "Success";
+	}
 	
 	
 	

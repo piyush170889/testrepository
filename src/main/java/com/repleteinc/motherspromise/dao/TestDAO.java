@@ -8,5 +8,6 @@ public interface TestDAO extends BaseDAO {
 	int deleteTestValues(int id);
 	boolean InsertTest(TestResponse t1);
 	int updateTestValue(TestResponse t1);
+	TestResponse testSelectValues(String id);
 	
 }

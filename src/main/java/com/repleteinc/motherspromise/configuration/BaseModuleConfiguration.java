@@ -58,6 +58,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import com.repleteinc.motherspromise.configuration.rest.UnauthorizedEntryPoint;
 import com.repleteinc.motherspromise.crons.ScheduledTasks;
@@ -94,7 +96,15 @@ public class BaseModuleConfiguration extends WebMvcConfigurerAdapter implements 
 	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
 		taskRegistrar.setScheduler(taskExecutor());
 	}
-
+	@Bean
+    public InternalResourceViewResolver viewResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setViewClass(JstlView.class);
+        viewResolver.setPrefix("/WEB-INF/jsp/");
+        viewResolver.setSuffix(".jsp");
+        return viewResolver;
+    }
+	
 	@Bean(destroyMethod = "shutdown")
 	public Executor taskExecutor() {
 		return Executors.newScheduledThreadPool(Integer.parseInt(environment.getProperty("threadpool.size")));
@@ -163,7 +173,7 @@ public class BaseModuleConfiguration extends WebMvcConfigurerAdapter implements 
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan(new String[] { "com.repleteinc.motherspromise.beans.insta.entity" });
+		sessionFactory.setPackagesToScan(new String[] { "com.knovaly.web.beans.entity" });
 		sessionFactory.setHibernateProperties(hibernateProperties());
 		return sessionFactory;
 	}
